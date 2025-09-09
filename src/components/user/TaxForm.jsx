@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import laoEmblem from "../../assets/Emblem_of_Laos.svg.png";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios"; // <-- จุดที่ 1: ลบออก
+import apiClient from '../../api/api'; // <-- จุดที่ 1: เพิ่ม apiClient เข้ามาแทน
 import "./print.css";
 
 const CheckedBox = () => (
@@ -44,10 +45,16 @@ const TaxForm = () => {
   useEffect(() => {
     const fetchDocument = async () => {
       try {
-        const response = await axios.get(
-          `http://localhost:2025/api/document/${id}`
-        );
-        setDoc(response.data.result);
+        // const response = await axios.get(`http://localhost:2025/api/document/${id}`); <-- โค้ดเก่า
+        const response = await apiClient.get(`/api/document/${id}`); // <-- จุดที่ 2: แก้ไขการเรียกใช้
+        
+        // ผมเพิ่มการตรวจสอบข้อมูลที่ได้รับกลับมาให้เหมือนกับไฟล์ฟอร์มนะครับ
+        const documentData = response.data.result || response.data.results || response.data;
+        if (documentData) {
+            setDoc(documentData);
+        } else {
+            setError("รูปแบบข้อมูลที่ได้รับจากเซิร์ฟเวอร์ไม่ถูกต้อง");
+        }
       } catch (e) {
         setError("ເກີດຂໍ້ຜິດພາດໃນການດຶງຂໍ້ມູນ: " + e.message);
         console.error(e);
@@ -64,6 +71,7 @@ const TaxForm = () => {
     }
   }, [id]);
 
+  // ส่วนที่เหลือทั้งหมดเหมือนเดิมทุกประการ ไม่มีการเปลี่ยนแปลง
   // helper functions
   const formatDate = (dateString) => {
     if (!dateString) return null;

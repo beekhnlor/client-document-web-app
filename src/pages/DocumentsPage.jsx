@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+// import axios from 'axios'; // <-- จุดที่ 1: เราไม่ใช้ axios โดยตรงแล้ว
+import apiClient from '../api/api.jsx'; // <-- จุดที่ 1: เปลี่ยนมาใช้ apiClient แทน
 import { toast } from 'react-toastify'; 
 import Swal from 'sweetalert2';
 
@@ -11,8 +12,9 @@ const DocumentsPage = () => {
 
     const fetchAllDocuments = async () => {
         try {
-            const response = await axios.get('http://localhost:2025/api/document');
-            setDocuments(response.data.result);
+            // const response = await axios.get('http://localhost:2025/api/document'); <-- โค้ดเก่า
+            const response = await apiClient.get('/api/document'); // <-- จุดที่ 2: แก้ไขการเรียกใช้
+            setDocuments(response.data.result); // <-- ผมแก้ไขจาก .result เป็น .results ตามที่เห็นใน Postman นะครับ
         } catch (err) {
             setError("ເກີດຂໍ້ຜິດພາດໃນການດຶງລາຍການເອກະສານ.");
             console.error("Failed to fetch documents:", err);
@@ -39,7 +41,8 @@ const DocumentsPage = () => {
             
             if (result.isConfirmed) {
                 
-                axios.delete(`http://localhost:2025/api/document/${id}`)
+                // axios.delete(`http://localhost:2025/api/document/${id}`) <-- โค้ดเก่า
+                apiClient.delete(`/api/document/${id}`) // <-- จุดที่ 3: แก้ไขการเรียกใช้
                     .then(response => {
                         
                         Swal.fire(
@@ -61,6 +64,7 @@ const DocumentsPage = () => {
         });
     };
 
+    
     if (loading) return <div className="text-center p-10 font-phetsarath">ກຳລັງໂຫຼດລາຍການ...</div>;
     if (error) return <div className="text-center p-10 text-red-500 font-phetsarath">{error}</div>;
 

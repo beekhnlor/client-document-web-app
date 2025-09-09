@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios"; // <-- จุดที่ 1: ลบออก
+import apiClient from '../../api/api'; // <-- จุดที่ 1: เพิ่ม apiClient เข้ามาแทน
 import { toast } from "react-toastify";
 import { useParams, useNavigate } from "react-router-dom";
 
-// ค่าเริ่มต้นของฟอร์มสำหรับใช้ในการสร้างและรีเซ็ต
+// ค่าเริ่มต้นของฟอร์มสำหรับใช้ในการสร้างและรีเซ็ต (ส่วนนี้เหมือนเดิม)
 const initialFormState = {
   year_of_form: new Date().getFullYear(),
   number: "",
@@ -66,17 +67,25 @@ const LaoApplicationForm = () => {
     };
 
     if (isEditMode) {
-      axios
-        .get(`http://localhost:2025/api/document/${id}`)
+      // axios.get(`http://localhost:2025/api/document/${id}`) <-- โค้ดเก่า
+      apiClient.get(`/api/document/${id}`) // <-- จุดที่ 2: แก้ไขการเรียกใช้
         .then((response) => {
-          const documentData = response.data.result;
-          documentData.id_issue_date = formatDateForInput(
-            documentData.id_issue_date
-          );
-          documentData.consultant_contract_date = formatDateForInput(
-            documentData.consultant_contract_date
-          );
-          setFormData(documentData);
+          // ผมสังเกตว่า API ของคุณอาจจะไม่ได้ส่งข้อมูลกลับมาใน key 'result' เสมอไป
+          // ผมจะปรับให้มันฉลาดขึ้นนิดหน่อยครับ
+          const documentData = response.data.result || response.data.results || response.data;
+          
+          if (documentData) {
+              documentData.id_issue_date = formatDateForInput(
+                documentData.id_issue_date
+              );
+              documentData.consultant_contract_date = formatDateForInput(
+                documentData.consultant_contract_date
+              );
+              setFormData(documentData);
+          } else {
+              toast.error("รูปแบบข้อมูลที่ได้รับจากเซิร์ฟเวอร์ไม่ถูกต้อง");
+              navigate("/documents");
+          }
         })
         .catch((err) => {
           toast.error("ບໍ່ສາມາດດຶງຂໍ້ມູນที่จะແກ້ໄຂໄດ້");
@@ -87,7 +96,8 @@ const LaoApplicationForm = () => {
         });
     }
   }, [id, isEditMode, navigate]);
-
+  
+  // ส่วนของ validateForm และ handleChange เหมือนเดิมทุกประการ ไม่มีการเปลี่ยนแปลง
   const validateForm = () => {
     const newErrors = {};
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -168,17 +178,13 @@ const LaoApplicationForm = () => {
 
     try {
       if (isEditMode) {
-        const response = await axios.put(
-          `http://localhost:2025/api/document/${id}`,
-          formData
-        );
+        // const response = await axios.put(`http://localhost:2025/api/document/${id}`, formData); <-- โค้ดเก่า
+        const response = await apiClient.put(`/api/document/${id}`, formData); // <-- จุดที่ 3: แก้ไขการเรียกใช้
         toast.success(response.data.message || "ອັບເດດຂໍ້ມູນສຳເລັດ");
         navigate("/documents");
       } else {
-        const response = await axios.post(
-          "http://localhost:2025/api/document",
-          formData
-        );
+        // const response = await axios.post("http://localhost:2025/api/document", formData); <-- โค้ดเก่า
+        const response = await apiClient.post("/api/document", formData); // <-- จุดที่ 4: แก้ไขการเรียกใช้
         toast.success(response.data.message || "ບັນທືກຂໍ້ມູນສຳເລັດ");
         setFormData(initialFormState);
         setErrors({});
@@ -190,6 +196,7 @@ const LaoApplicationForm = () => {
     }
   };
 
+  // ส่วนของ JSX ด้านล่างนี้เหมือนเดิมทุกประการ ไม่มีการเปลี่ยนแปลง
   if (isLoading) {
     return (
       <div className="text-center p-10 font-phetsarath">
