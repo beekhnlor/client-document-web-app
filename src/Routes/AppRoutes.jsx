@@ -8,39 +8,36 @@ import TaxForm from '../components/user/TaxForm'
 import LaoApplicationForm from '../components/user/Form' 
 import DashboardPage from '../pages/DashboardPage'
 
-const router = createBrowserRouter(
-    [
-        {
-            path: "/",
-            element: <LayoutUser />,
-            children: [
-                {
-                    index: true,
-                    element: <DashboardPage />
-                },
-                {
-                    path: "documents",
-                    element: <DocumentsPage />
-                },
-                {
-                    path: "document/view/:id",
-                    element: <TaxForm />
-                },
-                {
-                    path: "document/create",
-                    element: <LaoApplicationForm />
-                },
-                {
-                    path: "document/edit/:id",
-                    element: <LaoApplicationForm />
-                }
-            ]
-        }
-    ],
+const router = createBrowserRouter([
     {
-        basename: "/client-document-web-app",
+        path: "/",
+        element: <LayoutUser />,
+        children: [
+            {
+                index: true,
+                element: <DashboardPage /> 
+            },
+            {
+                path: "documents",
+                element: <DocumentsPage /> 
+            },
+            {
+                path: "document/view/:id",
+                element: <TaxForm />
+            },
+            {
+        
+                path: "document/create",
+                element: <LaoApplicationForm />
+            },
+            {
+               
+                path: "document/edit/:id",
+                element: <LaoApplicationForm />
+            }
+        ]
     }
-);
+]);
 
 const AppRoutes = () => {
     return (
