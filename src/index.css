@@ -1,0 +1,34 @@
+/* tailwind-print.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  .print-page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 20mm;
+    background-color: white;
+    box-sizing: border-box;
+    page-break-after: always;
+  }
+
+  @media print {
+    body {
+      -webkit-print-color-adjust: exact; 
+      print-color-adjust: exact;        
+      color-adjust: exact;
+    }
+
+   
+    .no-print {
+      display: none !important;
+    }
+  }
+}

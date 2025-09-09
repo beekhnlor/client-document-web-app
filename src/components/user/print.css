@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box !important;
+  }
+
+  /* ❗️❗️❗️ จุดแก้ไขใหม่: รีเซ็ตสไตล์ของ container ตัวนอกสุด ❗️❗️❗️ */
+  .print-root {
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: 0 !important;
+    background: none !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 210mm !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+  
+  .print-container, .print-container * {
+    visibility: visible;
+  }
+
+  .no-print, .no-print * {
+    display: none !important;
+  }
+
+  .print-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 210mm;
+    
+    /* คืนค่า padding และค่าอื่นๆ กลับเป็นค่าเดิมที่สวยงาม */
+    padding: 15mm !important; 
+    box-shadow: none !important;
+    border: none !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    
+    /* ไม่ต้องใช้ flex แล้ว เพื่อให้เนื้อหาลอยตัวตามปกติ */
+    /* display: flex; */
+    /* flex-direction: column; */
+  }
+  .print-container {
+    font-size: 10pt !important; 
+    line-height: 1.6 !important; 
+  }
+
+  /* คืนค่า margin/padding เดิมทั้งหมด */
+  .print-container .space-y-4 > * + * {
+    margin-top: 0.9 rem !important; 
+  }
+  .print-container .space-y-2 > * + * {
+    margin-top: 0.2rem !important;
+  }
+  .print-container .mb-8 {
+    margin-bottom: 1rem !important;
+  }
+  .print-container .mb-6 {
+    margin-bottom: 0.8rem !important;
+  }
+  .print-container .py-6 {
+    padding-top: 0.5rem !important;
+    padding-bottom: 0.5rem !important;
+  }
+  .print-container .py-2 {
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+  }
+  
+  div {
+    page-break-inside: avoid !important;
+  }
+}
