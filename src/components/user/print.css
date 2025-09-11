@@ -14,7 +14,6 @@
     box-sizing: border-box !important;
   }
 
-  /* ❗️❗️❗️ จุดแก้ไขใหม่: รีเซ็ตสไตล์ของ container ตัวนอกสุด ❗️❗️❗️ */
   .print-root {
     padding: 0 !important;
     margin: 0 !important;
@@ -64,7 +63,7 @@
 
   /* คืนค่า margin/padding เดิมทั้งหมด */
   .print-container .space-y-4 > * + * {
-    margin-top: 0.9 rem !important; 
+    margin-top: 0.8 rem !important; 
   }
   .print-container .space-y-2 > * + * {
     margin-top: 0.2rem !important;
