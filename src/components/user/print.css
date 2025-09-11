@@ -58,12 +58,12 @@
   }
   .print-container {
     font-size: 10pt !important; 
-    line-height: 1.6 !important; 
+    line-height: 1.4 !important; 
   }
 
   /* คืนค่า margin/padding เดิมทั้งหมด */
   .print-container .space-y-4 > * + * {
-    margin-top: 0.8 rem !important; 
+    margin-top: 0.9 rem !important; 
   }
   .print-container .space-y-2 > * + * {
     margin-top: 0.2rem !important;
