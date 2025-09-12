@@ -44,24 +44,16 @@
     left: 0;
     top: 0;
     width: 210mm;
-    
-    /* คืนค่า padding และค่าอื่นๆ กลับเป็นค่าเดิมที่สวยงาม */
     padding: 15mm !important; 
     box-shadow: none !important;
     border: none !important;
     margin: 0 !important;
     overflow: hidden !important;
-    
-    /* ไม่ต้องใช้ flex แล้ว เพื่อให้เนื้อหาลอยตัวตามปกติ */
-    /* display: flex; */
-    /* flex-direction: column; */
   }
   .print-container {
     font-size: 10pt !important; 
     line-height: 1.4 !important; 
   }
-
-  /* คืนค่า margin/padding เดิมทั้งหมด */
   .print-container .space-y-4 > * + * {
     margin-top: 0.9 rem !important; 
   }
