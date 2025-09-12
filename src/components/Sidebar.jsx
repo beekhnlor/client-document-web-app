@@ -12,8 +12,8 @@ const Sidebar = () => {
 
   return (
     // 👇 เปลี่ยนสีพื้นหลังเป็นสีเทาเข้มอมน้ำเงิน
-    <aside className="w-64 bg-slate-800 text-white flex flex-col p-4">
-      <div className="flex items-center justify-center border-b border-slate-700 pb-4 mb-4">
+    <aside className="w-64 bg-slate-700 text-white flex flex-col p-4">
+      <div className="flex items-center justify-center border-b border-slate-300 pb-4 mb-4">
         {/* อาจจะเปลี่ยนเป็นโลโก้จริงๆ ในอนาคต */}
         <span className="text-2xl font-semibold text-white tracking-wider text-center">ACCOUNTING DOCUMENT</span>
       </div>
@@ -27,11 +27,6 @@ const Sidebar = () => {
           <span>Documents</span>
         </NavLink>
       </nav>
-      <div className="pt-4 border-t border-slate-700">
-        <p className="text-center text-xs text-slate-500">
-          © 2025 Your Company
-        </p>
-      </div>
     </aside>
   );
 }

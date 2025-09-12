@@ -1,56 +1,78 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import ProtectedRoute from '../components/ProtectedRoute'; 
+// Layouts and Pages
+import RootLayout from '../Layout/RootLayout';
+import LayoutUser from '../Layout/LayoutUser'; 
 
-import LayoutUser from '../Layout/LayoutUser';
-import Home from '../pages/Home'; 
+import DashboardPage from '../pages/DashboardPage';
 import DocumentsPage from '../pages/DocumentsPage'; 
 import TaxForm from '../components/user/TaxForm'; 
 import LaoApplicationForm from '../components/user/Form'; 
-import DashboardPage from '../pages/DashboardPage';
 import Register from '../auth/register';
 import Login from '../auth/Login';
+
+// Auth
+import ProtectedRoute from '../components/ProtectedRoute'; 
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: (
-            <ProtectedRoute>
-                <LayoutUser />
-            </ProtectedRoute>
-        ),
+        element: <RootLayout />,
         children: [
             {
-                index: true,
-                element: <DashboardPage /> 
+                path: "login",
+                element: (
+                    <div>
+                        <div>
+                            <Login />
+                        </div>
+                    </div>
+                ),
             },
             {
-                path: "documents",
-                element: <DocumentsPage /> 
+                path: "register",
+                element: (
+                     <div >
+                        <div>
+                            <Register />
+                        </div>
+                    </div>
+                ),
             },
+            
+          
             {
-                path: "document/view/:id",
-                element: <TaxForm />
-            },
-            {
-                path: "document/create",
-                element: <LaoApplicationForm />
-            },
-            {
-                path: "document/edit/:id",
-                element: <LaoApplicationForm />
-            },
+                
+                element: (
+                    <ProtectedRoute>
+                        <LayoutUser />
+                    </ProtectedRoute>
+                ),
+                children: [
+                    {
+                        index: true,
+                        element: <DashboardPage /> 
+                    },
+                    {
+                        path: "documents",
+                        element: <DocumentsPage /> 
+                    },
+                    {
+                        path: "document/view/:id",
+                        element: <TaxForm />
+                    },
+                    {
+                        path: "document/create",
+                        element: <LaoApplicationForm />
+                    },
+                    {
+                        path: "document/edit/:id",
+                        element: <LaoApplicationForm />
+                    },
+                ]
+            }
         ]
-    },
-    
-    {
-        path:"register",
-        element:<Register/>
-    },
-    {
-        path:"login",
-        element:<Login/>
     }
 ]);
 
@@ -61,4 +83,5 @@ const AppRoutes = () => {
         </div>
     )
 }
+
 export default AppRoutes;

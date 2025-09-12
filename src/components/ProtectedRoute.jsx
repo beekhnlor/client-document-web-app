@@ -1,15 +1,14 @@
-// src/routes/ProtectedRoute.js (ตัวอย่าง path)
 import React from 'react';
 import { Navigate } from 'react-router-dom';
+import useDocumentStore from '../store/document-store';
 
 const ProtectedRoute = ({ children }) => {
-    
-    const isAuthenticated = !!localStorage.getItem('token'); 
+    const token = useDocumentStore((state) => state.token); 
 
-    if (!isAuthenticated) {
-
+    if (!token) {
         return <Navigate to="/login" replace />;
     }
+
     return children;
 };
 
