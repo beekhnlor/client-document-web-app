@@ -9,7 +9,7 @@ import DashboardPage from '../pages/DashboardPage';
 import DocumentsPage from '../pages/DocumentsPage'; 
 import TaxForm from '../components/user/TaxForm'; 
 import LaoApplicationForm from '../components/user/Form'; 
-import Register from '../auth/register';
+import Register from '../auth/Register';
 import Login from '../auth/Login';
 
 // Auth
