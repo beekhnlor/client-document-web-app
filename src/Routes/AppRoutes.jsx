@@ -14,6 +14,7 @@ import Login from '../auth/Login';
 
 // Auth
 import ProtectedRoute from '../components/ProtectedRoute'; 
+import Search from '../pages/Search';
 
 const router = createBrowserRouter([
     {
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
                         </div>
                     </div>
                 ),
+            },
+             {
+                        path:"search",
+                        element:<Search/>
             },
             
           

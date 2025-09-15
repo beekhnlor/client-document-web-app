@@ -29,7 +29,7 @@ const Login = () => {
       await actionLogin(form);
       await new Promise(resolve => setTimeout(resolve, 3000));
       setLoading(false)
-      navigate('/'); 
+      navigate('/search'); 
     } catch (err) {
       console.error("Login attempt failed:", err);
       setLoading(false);
