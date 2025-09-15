@@ -60,7 +60,7 @@ const CompanySearch = () => {
   }, [searchTerm, searchCompanies]);
 
   const handleCompanyClick = (companyId) => {
-    navigate('/document/create', { state: { companyId: companyId } });
+    navigate('/document/create');
   };
 
   return (
