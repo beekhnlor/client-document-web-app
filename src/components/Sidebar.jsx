@@ -1,7 +1,7 @@
 // src/components/layout/Sidebar.jsx
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaPlusCircle, FaFolder } from 'react-icons/fa';
+import { FaPlusCircle, FaFolder, FaUpload } from 'react-icons/fa';
 
 const Sidebar = () => {
 
@@ -25,6 +25,10 @@ const Sidebar = () => {
         <NavLink to="/documents" className={navLinkClass}>
           <FaFolder className="mr-3" />
           <span>Documents</span>
+        </NavLink>
+        <NavLink to="/show" className={navLinkClass}>
+          <FaUpload className="mr-3" />
+          <span>upload Document</span>
         </NavLink>
       </nav>
     </aside>

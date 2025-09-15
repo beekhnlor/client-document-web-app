@@ -52,7 +52,7 @@
   }
   .print-container {
     font-size: 10pt !important; 
-    line-height: 1.4 !important; 
+    line-height: 1.6 !important; 
   }
   .print-container .space-y-4 > * + * {
     margin-top: 0.9 rem !important; 

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 // import axios from "axios"; // <-- จุดที่ 1: ลบออก
 import apiClient from '../../api/api'; // <-- จุดที่ 1: เพิ่ม apiClient เข้ามาแทน
 import "./print.css";
+import html2canvas from 'html2canvas';
+import jspdf from 'jspdf';
 
 const CheckedBox = () => (
   <svg
@@ -41,6 +43,8 @@ const TaxForm = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+   const printContainerRef = useRef(null);
 
   useEffect(() => {
     const fetchDocument = async () => {
@@ -87,6 +91,53 @@ const TaxForm = () => {
     return Number(num).toLocaleString("en-US");
   };
 
+  //
+
+    const handleDownloadPdf = () => {
+    const input = printContainerRef.current; // เข้าถึง DOM element
+    if (!input) return;
+
+    html2canvas(input, {
+        scale: 2, // เพิ่มความละเอียดของภาพที่แปลง 2 เท่า
+        useCORS: true // สำหรับกรณีที่มีรูปภาพจากแหล่งอื่น
+    }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        
+        // กำหนดขนาดของ PDF ให้เป็น A4
+        const pdf = new jspdf({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const pdfWidth = pdf.internal.pageSize.getWidth();
+        const pdfHeight = pdf.internal.pageSize.getHeight();
+        const canvasWidth = canvas.width;
+        const canvasHeight = canvas.height;
+        const ratio = canvasWidth / canvasHeight;
+        
+        // คำนวณความสูงของรูปใน PDF ให้พอดีกับความกว้างของ A4
+        const imgHeight = pdfWidth / ratio;
+        let heightLeft = imgHeight;
+        
+        let position = 0;
+        
+        pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+        heightLeft -= pdfHeight;
+
+        // กรณีที่เนื้อหายาวเกิน 1 หน้า A4 (เผื่อไว้)
+        while (heightLeft > 0) {
+            position = heightLeft - imgHeight;
+            pdf.addPage();
+            pdf.addImage(imgData, 'PNG', 0, position, pdfWidth, imgHeight);
+            heightLeft -= pdfHeight;
+        }
+
+        // ตั้งชื่อไฟล์และสั่งดาวน์โหลด
+        pdf.save(`document-${doc.id || 'download'}.pdf`);
+    });
+  };
+
   // สถานะโหลด
   if (loading)
     return (
@@ -107,7 +158,7 @@ const TaxForm = () => {
 
   return (
     <div className="bg-gray-100 min-h-screen p-8 font-phetsarath print-root">
-      <div className="max-w-5xl mx-auto bg-white p-12 shadow-lg leading-relaxed print-container">
+      <div ref={printContainerRef}className="max-w-5xl mx-auto bg-white p-12 shadow-lg leading-relaxed print-container">
         <div className="text-center mb-6">
           <img
             src={laoEmblem}
@@ -370,15 +421,29 @@ const TaxForm = () => {
       </div>
       <div className="max-w-5xl mx-auto text-center no-print py-4 flex justify-center gap-4">
         {/* ปุ่มดาวน์โหลด */}
+     {/* ปุ่มปริ้น (ปุ่มดาวน์โหลดเดิม) */}
         <button
           onClick={() => window.print()}
           disabled={loading || !doc}
-          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
         >
-          ດາວໂຫຼດ
+          {/* ผมเปลี่ยนเป็นไอคอน Printer เพื่อความชัดเจน */}
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clipRule="evenodd" />
+          </svg>
+          ພິມ
         </button>
 
-        {/* ปุ่มย้อนกลับ */}
+        {/* ปุ่มใหม่: ดาวน์โหลด PDF */}
+      <button
+          onClick={handleDownloadPdf}
+          className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+          ດາວໂຫຼດ PDF
+        </button>
+        
+    
         <button
           onClick={() => navigate("/documents")}
           className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300"

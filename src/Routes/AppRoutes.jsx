@@ -15,6 +15,7 @@ import Login from '../auth/Login';
 // Auth
 import ProtectedRoute from '../components/ProtectedRoute'; 
 import Search from '../pages/Search';
+import Show from '../pages/Show';
 
 const router = createBrowserRouter([
     {
@@ -75,6 +76,10 @@ const router = createBrowserRouter([
                         path: "document/edit/:id",
                         element: <LaoApplicationForm />
                     },
+                    {
+                        path:"show",
+                        element:<Show/>
+                    }
                 ]
             }
         ]
