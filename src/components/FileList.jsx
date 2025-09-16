@@ -68,7 +68,7 @@ const FileList = () => {
     return 'other';
   };
   
-  const baseUrl = import.meta.env.VITE_API_BASE_URL;
+  const baseUrl = import.meta.env.VITE_API_URL;
 
   return (
     <div className="p-4 md:p-2 text-gray-200">
