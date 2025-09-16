@@ -169,7 +169,6 @@ const TaxForm = () => {
           <p>ສັນຕິພາບ ເອກະລາດ ປະຊາທິປະໄຕ ເອກະພາບ ວັດທະນາຖາວອນ</p>
         </div>
 
-        {/* ----- จุดแก้ไขอยู่ตรงนี้ ----- */}
         <div className="flex justify-between mb-8">
           <div>
             <p className="-ml-2">ຊື່ວິສາຫະກິດ</p>
@@ -427,14 +426,12 @@ const TaxForm = () => {
           disabled={loading || !doc}
           className="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg shadow-md transition-all duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
         >
-          {/* ผมเปลี่ยนเป็นไอคอน Printer เพื่อความชัดเจน */}
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path fillRule="evenodd" d="M5 4v3H4a2 2 0 00-2 2v6a2 2 0 002 2h12a2 2 0 002-2V9a2 2 0 00-2-2h-1V4a2 2 0 00-2-2H7a2 2 0 00-2 2zm8 0H7v3h6V4zm0 8H7v4h6v-4z" clipRule="evenodd" />
           </svg>
           ພິມ
         </button>
 
-        {/* ปุ่มใหม่: ดาวน์โหลด PDF */}
       <button
           onClick={handleDownloadPdf}
           className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg shadow-md flex items-center gap-2"

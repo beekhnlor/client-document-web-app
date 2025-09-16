@@ -68,7 +68,7 @@ const FileList = () => {
     return 'other';
   };
   
-  const baseUrl = 'http://localhost:2025';
+  const baseUrl = import.meta.env.VITE_API_BASE_URL;
 
   return (
     <div className="p-4 md:p-2 text-gray-200">
