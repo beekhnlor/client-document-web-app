@@ -4,7 +4,7 @@ import laoEmblem from "../../assets/Emblem_of_Laos.svg.png";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios"; // <-- จุดที่ 1: ลบออก
 import apiClient from '../../api/api'; // <-- จุดที่ 1: เพิ่ม apiClient เข้ามาแทน
-import "./print.css?raw";
+import printCss from "./print.css?raw";
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 
