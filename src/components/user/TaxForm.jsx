@@ -4,7 +4,7 @@ import laoEmblem from "../../assets/Emblem_of_Laos.svg.png";
 import { useNavigate } from "react-router-dom";
 // import axios from "axios"; // <-- จุดที่ 1: ลบออก
 import apiClient from '../../api/api'; // <-- จุดที่ 1: เพิ่ม apiClient เข้ามาแทน
-import "./print.css";
+import "./print.css?raw";
 import html2canvas from 'html2canvas';
 import jspdf from 'jspdf';
 
@@ -74,6 +74,25 @@ const TaxForm = () => {
       setError("ບໍ່ພົບ ID ໃນ URL.");
     }
   }, [id]);
+
+  useEffect(() => {
+    // สร้าง <style> element ขึ้นมาใหม่ใน JavaScript
+    const styleElement = document.createElement('style');
+    styleElement.id = 'print-style-sheet'; // ตั้ง ID ให้มันเพื่อง่ายต่อการลบ
+    styleElement.innerHTML = printCss; // เอาเนื้อหา CSS ที่เรา import มาใส่เข้าไป
+
+    // นำ style element ที่สร้างไปแปะไว้ใน <head> ของหน้าเว็บ
+    document.head.appendChild(styleElement);
+
+    // --- ส่วนที่สำคัญที่สุด: Cleanup Function ---
+    // ฟังก์ชันนี้จะทำงานอัตโนมัติเมื่อ Component ถูก "ทำลาย" (unmount)
+    return () => {
+        const existingStyle = document.getElementById('print-style-sheet');
+        if (existingStyle) {
+            document.head.removeChild(existingStyle); // สั่งให้ลบ style element นี้ทิ้ง
+        }
+    };
+}, []);
 
   // ส่วนที่เหลือทั้งหมดเหมือนเดิมทุกประการ ไม่มีการเปลี่ยนแปลง
   // helper functions
